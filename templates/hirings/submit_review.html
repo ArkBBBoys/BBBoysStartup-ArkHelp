@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}রিভিউ লিখুন - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container" style="max-width:520px">
+        <div class="dash-header-simple">
+            <h1>রিভিউ লিখুন</h1>
+            <a href="{% url 'hirings:my_hirings' %}" class="btn btn-outline btn-sm">ফিরুন</a>
+        </div>
+
+        <div class="form-card">
+            <div style="text-align:center;margin-bottom:24px">
+                <h3 style="margin-bottom:4px">{{ hiring.helper.user_profile.user.get_full_name }}</h3>
+                <p style="margin:0;font-size:.88rem">{{ hiring.start_date|date:"d M, Y" }} থেকে</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="rating" id="reviewRating" value="0">
+
+                <div class="form-group">
+                    <label class="form-label">রেটিং দিন</label>
+                    <div class="review-stars" id="reviewStars" style="display:flex;flex-direction:row;justify-content:center;gap:8px;font-size:2rem">
+                        {% for i in "12345" %}
+                        <span class="rstar" data-value="{{ i }}" style="cursor:pointer;color:var(--border);transition:color .2s;line-height:1">★</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">আপনার মন্তব্য</label>
+                    <textarea name="comment" class="form-textarea" placeholder="এই হেল্পার সম্পর্কে আপনার অভিজ্ঞতা লিখুন..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%">রিভিউ জমা দিন</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var container = document.getElementById('reviewStars');
+    var input = document.getElementById('reviewRating');
+    if (!container) return;
+    var stars = container.querySelectorAll('.rstar');
+    var activeColor = '#d4782a', inactiveColor = 'var(--border)';
+
+    function highlight(n) {
+        stars.forEach(function(s, i) {
+            s.style.color = i < n ? activeColor : inactiveColor;
+        });
+    }
+
+    stars.forEach(function(s) {
+        s.addEventListener('mouseenter', function() {
+            highlight(parseInt(this.dataset.value));
+        });
+        s.addEventListener('mouseleave', function() {
+            highlight(parseInt(input.value));
+        });
+        s.addEventListener('click', function() {
+            var v = parseInt(this.dataset.value);
+            input.value = v;
+            highlight(v);
+        });
+    });
+
+    highlight(0);
+})();
+</script>
+{% endblock %}

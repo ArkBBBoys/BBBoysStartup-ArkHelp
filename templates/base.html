@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+{% load static %}
+{% load ad_tags %}
+<html lang="bn" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="description" content="{% block meta_description %}HelpHands (হেল্পহ্যান্ডস) - বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার খুঁজে পাওয়ার প্ল্যাটফর্ম। রান্না, পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান সহ সকল ধরনের সেবা।{% endblock %}">
+    <meta name="keywords" content="হেল্পার, কাজের লোক, ডোমেস্টিক হেল্পার, বাংলাদেশ, রান্নাকারী, ঘর পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, কেয়ারগিভার">
+    <meta name="author" content="HelpHands">
+    <meta name="geo.region" content="BD">
+    <meta name="geo.placename" content="Bangladesh">
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}HelpHands (হেল্পহ্যান্ডস) - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। রিভিউ ও রেটিং দেখে সঠিক হেল্পার খুঁজে পান।{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% static 'img/logo.png' %}{% endblock %}">
+    <meta property="og:locale" content="bn_BD">
+    <meta property="og:site_name" content="HelpHands হেল্পহ্যান্ডস">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}HelpHands - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম।{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% static 'img/logo.png' %}{% endblock %}">
+
+    <title>{% block title %}HelpHands (হেল্পহ্যান্ডস){% endblock %}</title>
+
+    <link rel="manifest" href="{% url 'pwa-manifest' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/logo.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}">
+    <link rel="preload" href="{% static 'css/style.css' %}" as="style">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "HelpHands হেল্পহ্যান্ডস",
+        "alternateName": "HelpHands",
+        "url": "{{ site_url|default:'https://www.helphands.com' }}",
+        "logo": "{{ site_url|default:'https://www.helphands.com' }}{% static 'img/logo.png' %}",
+        "description": "বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম",
+        "areaServed": {"@type": "Country", "name": "Bangladesh"},
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "{{ contact_email|default:'info@helphands.com' }}",
+            "areaServed": "BD",
+            "availableLanguage": ["Bengali", "English"]
+        }
+    }
+    </script>
+    {% block faq_schema %}{% endblock %}
+    {% block breadcrumb_schema %}{% endblock %}
+    {% block service_schema %}{% endblock %}
+</head>
+<body>
+    {% get_popup_ads as popup_ads %}
+    {% if popup_ads %}
+    {% for ad in popup_ads %}
+    <div class="ad-popup" id="adPopup{{ ad.id }}" style="display:none;">
+        <div class="ad-popup-overlay" onclick="closeAd({{ ad.id }})"></div>
+        <div class="ad-popup-content">
+            {% if ad.show_close_button %}
+            <button class="ad-popup-close" onclick="closeAd({{ ad.id }})">&times;</button>
+            {% endif %}
+            <a href="#" onclick="trackAdClick({{ ad.id }}); return false;">
+                {% if ad.has_video %}
+                    {% if ad.video %}
+                    <video autoplay muted loop playsinline class="ad-video">
+                        <source src="{{ ad.video.url }}" type="video/mp4">
+                    </video>
+                    {% elif ad.video_url %}
+                    <iframe src="{{ ad.video_url }}" frameborder="0" allowfullscreen></iframe>
+                    {% endif %}
+                {% elif ad.image %}
+                <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="ad-image">
+                {% endif %}
+                {% if ad.title %}<h3 class="ad-title">{{ ad.title }}</h3>{% endif %}
+                {% if ad.description %}<p class="ad-description">{{ ad.description }}</p>{% endif %}
+            </a>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var p = document.getElementById('adPopup{{ ad.id }}');
+            if (p) { p.style.display = 'flex'; p.style.animation = 'adFadeIn 0.4s ease'; }
+        }, 1500);
+    });
+    </script>
+    {% endfor %}
+    {% endif %}
+
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-container">
+            <a href="{% url 'helpers:home' %}" class="navbar-brand">
+                <img src="{% static 'img/logo.png' %}" alt="HelpHands" class="navbar-logo">
+                <span class="navbar-brand-text">হেল্পহ্যান্ডস</span>
+            </a>
+
+            <button class="navbar-toggle" id="navbarToggle" aria-label="মেনু">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="{% url 'helpers:helper_list' %}" class="nav-link">হেল্পার খুঁজুন</a>
+                <a href="{% url 'about' %}" class="nav-link">আমাদের সম্পর্কে</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:dashboard' %}" class="nav-link">ড্যাশবোর্ড</a>
+                    {% if user.profile.account_type == 'helper' %}
+                    <a href="{% url 'hirings:my_hirings' %}" class="nav-link">আমার হায়ারিং</a>
+                    {% endif %}
+                    <div class="navbar-left-actions">
+                        <a href="{% url 'accounts:edit_profile' %}" class="notification-badge" aria-label="নোটিফিকেশন" title="নোটিফিকেশন">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </a>
+                        <form method="post" action="{% url 'accounts:logout' %}" class="nav-form" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline btn-sm">লগআউট</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="nav-link">লগইন</a>
+                    <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-sm">নিবন্ধন</a>
+                {% endif %}
+                <button class="theme-toggle" id="themeToggle" aria-label="থিম">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button class="message-close" onclick="this.parentElement.remove()">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block sos_banner %}{% endblock %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <a href="#" class="back-to-top" id="backToTop" aria-label="উপরে যান">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </a>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-title">হেল্পহ্যান্ডস</h3>
+                    <p class="footer-text">বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। আমরা দেশের মানুষের জন্য তৈরি করেছি একটি নির্ভরযোগ্য সেবা।</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">দ্রুত লিংক</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'helpers:helper_list' %}">হেল্পার খুঁজুন</a></li>
+                        <li><a href="{% url 'about' %}">আমাদের সম্পর্কে</a></li>
+                        <li><a href="{% url 'accounts:signup' %}">নিবন্ধন করুন</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">আইনি</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'terms' %}">শর্তাবলী</a></li>
+                        <li><a href="{% url 'privacy' %}">গোপনীয়তা নীতি</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">যোগাযোগ</h4>
+                    <ul class="footer-links">
+                        <li>ইমেইল: {{ contact_email|default:'info@helphands.com' }}</li>
+                        <li>ফোন: {{ contact_phone|default:'+৮৮০ ১XXX-XXXXXX' }}</li>
+                        <li>ঢাকা, বাংলাদেশ</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; ২০২৬ হেল্পহ্যান্ডস। সর্বস্বত্ব সংরক্ষিত। দেশের জন্য আমাদের এই ছোট প্রয়াস।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <style>
+    .ad-popup{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:none;align-items:center;justify-content:center}
+    .ad-popup-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+    .ad-popup-content{position:relative;max-width:90%;max-height:90vh;background:white;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    @keyframes adFadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    .ad-popup-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:white;border:none;width:36px;height:36px;border-radius:50%;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .ad-popup-close:hover{background:rgba(0,0,0,.8);transform:rotate(90deg)}
+    .ad-popup-content img,.ad-popup-content video{display:block;max-width:100%;max-height:60vh;width:auto;height:auto;margin:0 auto}
+    .ad-title{padding:16px 20px 0;margin:0;font-size:1.2rem;text-align:center;color:#2c2416}
+    .ad-description{padding:8px 20px 20px;text-align:center;color:#7a6f5d}
+    .back-to-top{position:fixed;bottom:24px;left:24px;z-index:5000;width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;border:none;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);cursor:pointer;opacity:0;visibility:hidden;transform:scale(.8);transition:all .3s ease}
+    .back-to-top.visible{opacity:1;visibility:visible;transform:scale(1)}
+    .back-to-top:hover{transform:scale(1.1) translateY(-3px);background:var(--primary-dark)}
+    @keyframes adFadeOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.9)}}
+    </style>
+
+    <script>
+    function closeAd(id){var p=document.getElementById('adPopup'+id);if(p){p.style.animation='adFadeOut 0.3s ease forwards';p.addEventListener('animationend',function(){p.style.display='none'},{once:true})}}
+    function trackAdClick(id){
+        fetch('/ads/track/click/'+id+'/',{method:'POST',headers:{'X-CSRFToken':'{{ csrf_token }}'}})
+        .then(function(r){return r.json()}).then(function(d){if(d.redirect)window.location.href=d.redirect})
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var toggle = document.getElementById('themeToggle');
+        if (toggle) {
+            toggle.addEventListener('click', function() {
+                var html = document.documentElement;
+                var isDark = html.getAttribute('data-theme') === 'dark';
+                html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                try { localStorage.setItem('theme', isDark ? 'light' : 'dark'); } catch(e) {}
+            });
+        }
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch(e) {}
+        if (stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

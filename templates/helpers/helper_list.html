@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}হেল্পার তালিকা - বাংলাদেশের হেল্পার খুঁজুন | HelpHands{% endblock %}
+
+{% block meta_description %}বাংলাদেশের সকল বিভাগে হেল্পার খুঁজুন। রান্নাকারী, ঘর পরিষ্কারকারী, শিশু পরিচর্যাকারী, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, কেয়ারগিভার সহ সকল ধরনের সেবা প্রদানকারী। রিভিউ ও রেটিং দেখে সঠিক পছন্দ করুন।{% endblock %}
+
+{% block canonical_url %}{% url 'helpers:helper_list' %}{% endblock %}
+
+{% block og_title %}হেল্পার তালিকা - হেল্পহ্যান্ডস{% endblock %}
+{% block og_description %}বাংলাদেশের সকল বিভাগে হেল্পার খুঁজুন।{% endblock %}
+
+{% block content %}
+<div class="list-page">
+    <div class="container">
+        <div class="list-header">
+            <div>
+                <h1>হেল্পার খুঁজুন</h1>
+                {% if helpers %}<p class="results-count">{{ page_obj.paginator.count }} জন হেল্পার পাওয়া গেছে</p>{% endif %}
+            </div>
+            <button class="filter-toggle-btn" id="filterToggle" onclick="toggleFilters()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+                ফিল্টার
+            </button>
+        </div>
+
+        <div class="layout-with-sidebar">
+            <aside class="filter-sidebar" id="filterPanel">
+                <div class="filter-header">
+                    <h3>ফিল্টার</h3>
+                    <button class="filter-close" onclick="toggleFilters()">&times;</button>
+                </div>
+                <form method="get" class="filter-form" id="filterForm">
+                    <input type="hidden" name="lat" id="filterLat" value="{{ selected_lat|default:'' }}">
+                    <input type="hidden" name="lng" id="filterLng" value="{{ selected_lng|default:'' }}">
+
+                    {% if selected_lat and selected_lng %}
+                    <div class="filter-notice">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m10-10h-4M6 12H2"/></svg>
+                        আপনার অবস্থানের কাছাকাছি হেল্পার দেখানো হচ্ছে
+                        <a href="{% url 'helpers:helper_list' %}" class="clear-location">সরান</a>
+                    </div>
+                    {% endif %}
+
+                    <div class="filter-group">
+                        <label>বিভাগ</label>
+                        <select name="division" class="filter-select">
+                            <option value="">সব বিভাগ</option>
+                            {% for code, name in divisions %}
+                            <option value="{{ code }}" {% if selected_division == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>জেলা</label>
+                        <select name="district" class="filter-select">
+                            <option value="">সব জেলা</option>
+                            {% for code, name in districts %}
+                            <option value="{{ code }}" {% if selected_district == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>উপজেলা/থানা</label>
+                        <select name="upazila" id="upazilaSelect" class="filter-select">
+                            <option value="">সব উপজেলা</option>
+                            {% for code, name in upazilas %}
+                            <option value="{{ code }}" {% if selected_upazila == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>স্থানের ধরন</label>
+                        <select name="place_type" class="filter-select">
+                            <option value="">সব ধরন</option>
+                            {% for code, name in place_types %}
+                            <option value="{{ code }}" {% if selected_place_type == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>সেবার ধরন</label>
+                        <select name="service_type" class="filter-select">
+                            <option value="">সব সেবা</option>
+                            {% for code, name in service_types %}
+                            <option value="{{ code }}" {% if selected_service == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>ন্যূনতম রেটিং</label>
+                        <select name="min_rating" class="filter-select">
+                            <option value="">সব রেটিং</option>
+                            <option value="4" {% if selected_min_rating == "4" %}selected{% endif %}>৪+ ⭐</option>
+                            <option value="3" {% if selected_min_rating == "3" %}selected{% endif %}>৩+ ⭐</option>
+                            <option value="2" {% if selected_min_rating == "2" %}selected{% endif %}>২+ ⭐</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>সর্বোচ্চ মজুরি</label>
+                        <select name="max_rate" class="filter-select">
+                            <option value="">যে কোনো মূল্য</option>
+                            <option value="5000" {% if selected_max_rate == "5000" %}selected{% endif %}>৫,০০০৳ এর নিচে</option>
+                            <option value="10000" {% if selected_max_rate == "10000" %}selected{% endif %}>১০,০০০৳ এর নিচে</option>
+                            <option value="20000" {% if selected_max_rate == "20000" %}selected{% endif %}>২০,০০০৳ এর নিচে</option>
+                            <option value="50000" {% if selected_max_rate == "50000" %}selected{% endif %}>৫০,০০০৳ এর নিচে</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>উপলব্ধতা</label>
+                        <select name="availability" class="filter-select">
+                            <option value="">সব</option>
+                            <option value="available" {% if selected_availability == "available" %}selected{% endif %}>Available</option>
+                            <option value="busy" {% if selected_availability == "busy" %}selected{% endif %}>Busy</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>খুঁজুন</label>
+                        <input type="text" name="search" class="filter-input" placeholder="নাম বা অবস্থান..." value="{{ selected_search|default:'' }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%">ফিল্টার করুন</button>
+                    <a href="{% url 'helpers:helper_list' %}" class="btn btn-outline btn-sm" style="width:100%;margin-top:8px;text-align:center">রিসেট</a>
+                </form>
+            </aside>
+
+            <div class="results-area">
+                {% if helpers %}
+                <div class="helper-grid-results">
+                    {% for helper in helpers %}
+                    <a href="{% url 'helpers:helper_detail' helper.pk %}" class="helper-card-link">
+                        <article class="helper-card-modern gradient-border-card">
+                            <div class="helper-card-img">
+                                {% if helper.user_profile.profile_photo %}
+                                <img src="{{ helper.user_profile.profile_photo.url }}" alt="{{ helper.user_profile.user.get_full_name }}" loading="lazy">
+                                {% else %}
+                                <div class="helper-card-avatar-modern">
+                                    <span>{{ helper.user_profile.user.get_initials|default:"হ" }}</span>
+                                </div>
+                                {% endif %}
+                                {% if helper.is_verified_by_admin %}
+                                <span class="verified-badge" title="ভেরিফাইড">✓</span>
+                                {% endif %}
+                                <span class="helper-status {{ helper.availability_status }}">{{ helper.get_availability_status_display }}</span>
+                                <button class="favorite-btn fav-btn" data-helper-id="{{ helper.pk }}" onclick="event.stopPropagation();event.preventDefault();" aria-label="ফেভারিট">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                </button>
+                            </div>
+                            <div class="helper-card-body">
+                                <h3>{{ helper.user_profile.user.get_full_name }}</h3>
+                                <p class="helper-location">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    {{ helper.user_profile.get_district_display|default:helper.user_profile.get_division_display }}
+                                    {% if helper.user_profile.get_upazila_display %} - {{ helper.user_profile.get_upazila_display }}{% endif %}
+                                </p>
+                                <div class="helper-tags">
+                                    {% for service in helper.get_display_services|slice:":3" %}
+                                    <span class="tag">{{ service }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="helper-footer-info">
+                                    <div class="helper-rating">
+                                        <span class="stars">{% for i in "12345" %}{% if forloop.counter <= helper.average_rating|default:0|floatformat:0|add:0 %}★{% else %}☆{% endif %}{% endfor %}</span>
+                                        <span class="rating-num">{{ helper.average_rating|default:"0.0" }}</span>
+                                    </div>
+                                    <div class="helper-price">
+                                        {% if helper.monthly_rate %}{{ helper.monthly_rate }}৳<small>/মাস</small>
+                                        {% elif helper.hourly_rate %}{{ helper.hourly_rate }}৳<small>/ঘণ্টা</small>{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if selected_division %}&division={{ selected_division }}{% endif %}{% if selected_district %}&district={{ selected_district }}{% endif %}{% if selected_upazila %}&upazila={{ selected_upazila }}{% endif %}{% if selected_service %}&service_type={{ selected_service }}{% endif %}{% if selected_min_rating %}&min_rating={{ selected_min_rating }}{% endif %}{% if selected_availability %}&availability={{ selected_availability }}{% endif %}{% if selected_search %}&search={{ selected_search }}{% endif %}" class="page-link">পূর্ববর্তী</a>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <span class="page-current">{{ num }}</span>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a href="?page={{ num }}{% if selected_division %}&division={{ selected_division }}{% endif %}{% if selected_district %}&district={{ selected_district }}{% endif %}{% if selected_upazila %}&upazila={{ selected_upazila }}{% endif %}{% if selected_service %}&service_type={{ selected_service }}{% endif %}{% if selected_min_rating %}&min_rating={{ selected_min_rating }}{% endif %}{% if selected_availability %}&availability={{ selected_availability }}{% endif %}{% if selected_search %}&search={{ selected_search }}{% endif %}" class="page-link">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if selected_division %}&division={{ selected_division }}{% endif %}{% if selected_district %}&district={{ selected_district }}{% endif %}{% if selected_upazila %}&upazila={{ selected_upazila }}{% endif %}{% if selected_service %}&service_type={{ selected_service }}{% endif %}{% if selected_min_rating %}&min_rating={{ selected_min_rating }}{% endif %}{% if selected_availability %}&availability={{ selected_availability }}{% endif %}{% if selected_search %}&search={{ selected_search }}{% endif %}" class="page-link">পরবর্তী</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <h3>কোনো হেল্পার পাওয়া যায়নি</h3>
+                    <p>ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।</p>
+                    <a href="{% url 'helpers:helper_list' %}" class="btn btn-primary">সব হেল্পার দেখুন</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

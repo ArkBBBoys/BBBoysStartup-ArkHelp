@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}হেল্পহ্যান্ডস - বিশ্বস্ত হেল্পার খুঁজুন সহজেই | HelpHands{% endblock %}
+
+{% block meta_description %}হেল্পহ্যান্ডস - বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। রান্না, ঘর পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, কেয়ারগিভার সহ সকল ধরনের সেবা। রিভিউ ও রেটিং দেখে সঠিক হেল্পার খুঁজে পান।{% endblock %}
+
+{% block canonical_url %}{% url 'helpers:home' %}{% endblock %}
+
+{% block og_title %}হেল্পহ্যান্ডস - বিশ্বস্ত হেল্পার খুঁজুন{% endblock %}
+{% block og_description %}বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। ৩৫+ সেবা, ৮ বিভাগ, রিভিউ ও রেটিং।{% endblock %}
+
+{% block faq_schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {"@type":"Question","name":"হেল্পহ্যান্ডস কী?","acceptedAnswer":{"@type":"Answer","text":"হেল্পহ্যান্ডস বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। আমরা পরিবার, অফিস ও প্রতিষ্ঠানের জন্য যাচাইকৃত হেল্পার, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, কেয়ারগিভার সহ সকল ধরনের সেবা প্রদানকারীদের সাথে সংযুক্ত করি।"}},
+        {"@type":"Question","name":"কী ধরনের হেল্পার পাওয়া যায়?","acceptedAnswer":{"@type":"Answer","text":"আমাদের প্ল্যাটফর্মে রান্নাকারী, ঘর পরিষ্কারকারী, শিশু পরিচর্যাকারী, বৃদ্ধ সেবাকারী, বেবিসিটার, কেয়ারগিভার, প্লাম্বার, ইলেকট্রিশিয়ান, ছুতার, পেন্টার, ড্রাইভার, সিকিউরিটি গার্ড, টিউটর, নার্স সহ ৩৫+ ধরনের সেবা প্রদানকারী পাওয়া যায়।"}},
+        {"@type":"Question","name":"হেল্পার কীভাবে নিয়োগ করব?","acceptedAnswer":{"@type":"Answer","text":"প্রথমে নিবন্ধন করুন, তারপর আপনার প্রয়োজন অনুযায়ী ফিল্টার করে হেল্পার বেছে নিন, রিভিউ পড়ুন এবং হায়ার রিকোয়েস্ট পাঠান।"}},
+        {"@type":"Question","name":"হেল্পার ভেরিফাইড কিনা কীভাবে বুঝব?","acceptedAnswer":{"@type":"Answer","text":"ভেরিফাইড হেল্পারদের প্রোফাইলে 'অ্যাডমিন ভেরিফাইড' ব্যাজ থাকে। তাদের এনআইডি ও পরিচয় যাচাই করা হয়েছে।"}}
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-badge">🇧🇩 বাংলাদেশের বিশ্বস্ত প্ল্যাটফর্ম</span>
+            <h1 class="hero-title">আপনার প্রয়োজনীয় <span class="text-accent">হেল্পার</span> খুঁজুন</h1>
+            <p class="hero-subtitle">রান্না, পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, ড্রাইভার সহ ৩৫+ ধরনের সেবা। রিভিউ ও রেটিং দেখে সঠিক পছন্দ করুন।</p>
+
+            <div class="hero-search-alt">
+                <button class="use-location-btn" id="useLocationBtn" onclick="detectLocation()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m17.07-7.07l-2.83 2.83M7.76 16.24l-2.83 2.83M19.07 19.07l-2.83-2.83M7.76 7.76L4.93 4.93"/></svg>
+                    আমার অবস্থান ব্যবহার করুন
+                </button>
+                <form action="{% url 'helpers:helper_list' %}" method="get" class="hero-search-form">
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label>বিভাগ</label>
+                            <select name="division">
+                                <option value="">সব বিভাগ</option>
+                                {% for code, name in divisions %}
+                                <option value="{{ code }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label>সেবার ধরন</label>
+                            <select name="service_type">
+                                <option value="">সব সেবা</option>
+                                {% for code, name in service_types %}
+                                <option value="{{ code }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-accent btn-lg search-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            খুঁজুন
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-value">{{ total_helpers|default:"০" }}+</span>
+                    <span class="hero-stat-label">নিবন্ধিত হেল্পার</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">{{ total_services|default:"৩৫" }}+</span>
+                    <span class="hero-stat-label">সেবার ধরন</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">৮</span>
+                    <span class="hero-stat-label">বিভাগ জুড়ে</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">৪.৫+</span>
+                    <span class="hero-stat-label">গড় রেটিং</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container" style="margin-top:24px">
+    <div class="sos-banner reveal">
+        <div class="sos-banner-content">
+            <div class="sos-icon">🆘</div>
+            <div class="sos-text">
+                <strong>জরুরি হেল্পার দরকার?</strong>
+                <span>এখনই খুঁজুন আপনার কাছের হেল্পার</span>
+            </div>
+        </div>
+        <a href="{% url 'helpers:helper_list' %}?availability=available" class="sos-btn">খুঁজুন</a>
+    </div>
+</div>
+
+{% if featured_helpers %}
+<section class="section reveal">
+    <div class="container">
+        <div class="section-title">
+            <h2>জনপ্রিয় হেল্পার</h2>
+            <p>সবচেয়ে বেশি রেটিং প্রাপ্ত হেল্পারগণ</p>
+        </div>
+        <div class="helper-grid">
+            {% for helper in featured_helpers %}
+            <a href="{% url 'helpers:helper_detail' helper.pk %}" class="helper-card-link">
+                <article class="helper-card-modern gradient-border-card">
+                    <div class="helper-card-img">
+                        {% if helper.user_profile.profile_photo %}
+                        <img src="{{ helper.user_profile.profile_photo.url }}" alt="{{ helper.user_profile.user.get_full_name }}" loading="lazy">
+                        {% else %}
+                        <div class="helper-card-avatar-modern">
+                            <span>{{ helper.user_profile.user.get_initials|default:"হ" }}</span>
+                        </div>
+                        {% endif %}
+                        {% if helper.is_verified_by_admin %}
+                        <span class="verified-badge" title="ভেরিফাইড">✓</span>
+                        {% endif %}
+                        <span class="helper-status {{ helper.availability_status }}">{{ helper.get_availability_status_display }}</span>
+                        <button class="favorite-btn fav-btn" data-helper-id="{{ helper.pk }}" onclick="event.stopPropagation();event.preventDefault();" aria-label="ফেভারিট">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="helper-card-body">
+                        <h3>{{ helper.user_profile.user.get_full_name }}</h3>
+                        <p class="helper-location">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            {{ helper.user_profile.get_district_display|default:helper.user_profile.get_division_display }}
+                        </p>
+                        <div class="helper-tags">
+                            {% for service in helper.get_display_services|slice:":3" %}
+                            <span class="tag">{{ service }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="helper-footer-info">
+                            <div class="helper-rating">
+                                <span class="stars">{% for i in "12345" %}{% if forloop.counter <= helper.average_rating|default:0|floatformat:0|add:0 %}★{% else %}☆{% endif %}{% endfor %}</span>
+                                <span class="rating-num">{{ helper.average_rating|default:"0.0" }}</span>
+                                <span class="review-count">({{ helper.total_reviews }})</span>
+                            </div>
+                            <div class="helper-price">
+                                {% if helper.monthly_rate %}{{ helper.monthly_rate }}৳<small>/মাস</small>
+                                {% elif helper.hourly_rate %}{{ helper.hourly_rate }}৳<small>/ঘণ্টা</small>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="section-cta">
+            <a href="{% url 'helpers:helper_list' %}" class="btn btn-outline btn-lg">
+                সব হেল্পার দেখুন
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section section-alt services-premium-section reveal">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-badge">আমাদের সেবাসমূহ</span>
+            <h2>সকল <span class="text-accent">সেবা</span></h2>
+            <p>গৃহস্থালি থেকে শুরু করে পেশাদার সেবা — ৩৫+ ধরনের সেবা এক প্ল্যাটফর্মে</p>
+        </div>
+
+        {% for category, cat_name, services in service_categories %}
+        <div class="service-premium-category reveal">
+            <div class="category-premium-header">
+                <h3 class="category-premium-title">{{ cat_name }}</h3>
+                <span class="category-premium-count">{{ services|length }} টি সেবা</span>
+            </div>
+            <div class="services-premium-grid">
+                {% for code, name in service_types %}
+                    {% if code in services %}
+                    <a href="{% url 'helpers:helper_list' %}?service_type={{ code }}" class="service-premium-card">
+                        <div class="service-premium-icon-wrap">
+                            <span class="service-premium-icon">
+                                {% if code == 'cooking' %}🍳
+                                {% elif code == 'cleaning' %}🧹
+                                {% elif code == 'childcare' %}👶
+                                {% elif code == 'elderly_care' %}👴
+                                {% elif code == 'gardening' %}🌱
+                                {% elif code == 'car_washing' %}🚗
+                                {% elif code == 'laundry' %}👕
+                                {% elif code == 'shopping' %}🛒
+                                {% elif code == 'babysitting' %}🍼
+                                {% elif code == 'caregiver' %}🤝
+                                {% elif code == 'plumber' %}🔧
+                                {% elif code == 'electrician' %}⚡
+                                {% elif code == 'carpenter' %}🪚
+                                {% elif code == 'painter' %}🎨
+                                {% elif code == 'welder' %}🔥
+                                {% elif code == 'mason' %}🧱
+                                {% elif code == 'driver' %}🚙
+                                {% elif code == 'security_guard' %}🛡️
+                                {% elif code == 'office_assistant' %}📋
+                                {% elif code == 'delivery_man' %}📦
+                                {% elif code == 'tailor' %}✂️
+                                {% elif code == 'beautician' %}💄
+                                {% elif code == 'masseur' %}💆
+                                {% elif code == 'nurse' %}🏥
+                                {% elif code == 'physiotherapist' %}🦴
+                                {% elif code == 'tutor' %}📚
+                                {% elif code == 'event_worker' %}🎪
+                                {% elif code == 'pest_control' %}🐜
+                                {% elif code == 'moving_help' %}📦
+                                {% elif code == 'pet_care' %}🐾
+                                {% elif code == 'home_repair' %}🔨
+                                {% elif code == 'ac_technician' %}❄️
+                                {% elif code == 'generator_tech' %}⚙️
+                                {% elif code == 'computer_repair' %}💻
+                                {% elif code == 'mobile_repair' %}📱
+                                {% else %}🔧
+                                {% endif %}
+                            </span>
+                        </div>
+                        <span class="service-premium-name">{{ name }}</span>
+                        <span class="service-premium-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section reveal">
+    <div class="container">
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="info-icon">🛡️</div>
+                <h3>যাচাইকৃত প্রোফাইল</h3>
+                <p>প্রত্যেক হেল্পারের পরিচয় ও এনআইডি যাচাই করা হয়</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">⭐</div>
+                <h3>রিভিউ ও রেটিং</h3>
+                <p>আসল ব্যবহারকারীদের রিভিউ দেখে সঠিক পছন্দ করুন</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">💬</div>
+                <h3>সহজ যোগাযোগ</h3>
+                <p>সরাসরি হেল্পারের সাথে যোগাযোগ করে নিয়োগ দিন</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">🔒</div>
+                <h3>নিরাপদ ও ব্যক্তিগত</h3>
+                <p>আপনার তথ্য সুরক্ষিত, প্রযোজন ছাড়া ফোন নম্বর দেখানো হয় না</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section reveal">
+    <div class="container">
+        <h2>আপনি কি হেল্পার?</h2>
+        <p>আমাদের প্ল্যাটফর্মে নিবন্ধন করুন এবং কাজ খুঁজুন। সম্পূর্ণ বিনামূল্যে।</p>
+        <a href="{% url 'accounts:signup' %}?account_type=helper" class="btn btn-accent btn-lg">হেল্পার হিসেবে নিবন্ধন করুন</a>
+    </div>
+</section>
+
+<script>
+function detectLocation() {
+    var btn = document.getElementById('useLocationBtn');
+    btn.innerHTML = 'অবস্থান খোঁজা হচ্ছে...';
+    btn.disabled = true;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                window.location.href = '{% url "helpers:helper_list" %}?lat=' + pos.coords.latitude + '&lng=' + pos.coords.longitude;
+            },
+            function(err) {
+                btn.innerHTML = 'অবস্থান পাওয়া যায়নি';
+                btn.disabled = false;
+                setTimeout(function() {
+                    btn.innerHTML = 'আমার অবস্থান ব্যবহার করুন';
+                }, 2000);
+            }
+        );
+    } else {
+        btn.innerHTML = 'জিওলোকেশন সমর্থিত নয়';
+        btn.disabled = false;
+    }
+}
+</script>
+{% endblock %}

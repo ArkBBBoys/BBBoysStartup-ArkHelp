@@ -1,0 +1,21 @@
+[project]
+name = "arkhelps"
+version = "1.0.0"
+description = "HelpHands - Bangladesh's trusted domestic helper platform"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.0.6",
+    "django-jazzmin>=3.0.4",
+    "django-pwa>=2.0.1",
+    "django-storages[s3]>=1.14.6",
+    "django-anymail[resend]>=12.0",
+    "boto3>=1.43.21",
+    "whitenoise>=6.12.0",
+    "dj-database-url>=3.1.2",
+    "pillow>=12.2.0",
+    "psycopg2>=2.9.12",
+    "python-dotenv>=1.1.0",
+    "django-allauth>=65.18.0",
+    "psycopg2-binary>=2.9.12",
+]

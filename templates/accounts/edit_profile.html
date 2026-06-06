@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}প্রোফাইল সম্পাদনা - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container" style="max-width:720px">
+        <div class="dash-header-simple">
+            <h1>প্রোফাইল সম্পাদনা</h1>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline btn-sm">ড্যাশবোর্ডে ফিরুন</a>
+        </div>
+
+        <div class="form-card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label">প্রোফাইল ছবি</label>
+                    <div class="photo-upload">
+                        {% if profile.profile_photo %}
+                        <img src="{{ profile.profile_photo.url }}" class="preview-photo">
+                        {% endif %}
+                        <input type="file" name="profile_photo" accept="image/*" class="file-input" id="photoInput">
+                        <label for="photoInput" class="file-label">ছবি নির্বাচন করুন</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ফোন নম্বর</label>
+                    <input type="tel" name="phone_number" class="form-input" value="{{ profile.phone_number|default:'' }}" placeholder="01XXXXXXXXX">
+                </div>
+
+                <h3 class="section-divider">অবস্থান</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">বিভাগ</label>
+                        <select name="division" id="id_division" class="form-select" onchange="loadDistricts()">
+                            <option value="">বিভাগ নির্বাচন করুন</option>
+                            {% for code, name in divisions %}
+                            <option value="{{ code }}" {% if profile.division == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">জেলা</label>
+                        <select name="district" id="id_district" class="form-select" onchange="loadUpazilas()">
+                            <option value="">জেলা নির্বাচন করুন</option>
+                            {% for code, name in districts %}
+                            <option value="{{ code }}" {% if profile.district == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">উপজেলা/থানা</label>
+                        <select name="upazila" id="id_upazila" class="form-select">
+                            <option value="">উপজেলা নির্বাচন করুন</option>
+                            {% for code, name in upazilas %}
+                            <option value="{{ code }}" {% if profile.upazila == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">স্থানের ধরন</label>
+                        <select name="place_type" class="form-select">
+                            <option value="">নির্বাচন করুন</option>
+                            {% for code, name in place_types %}
+                            <option value="{{ code }}" {% if profile.place_type == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">গ্রাম/শহর/এলাকার নাম</label>
+                        <input type="text" name="village_city_area" class="form-input" value="{{ profile.village_city_area|default:'' }}" placeholder="গ্রাম/মহল্লার নাম">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">বাড়ি/রোড/ব্লক</label>
+                        <input type="text" name="house_address" class="form-input" value="{{ profile.house_address|default:'' }}" placeholder="বাড়ি নম্বর, রোড">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ল্যান্ডমার্ক (ঐচ্ছিক)</label>
+                    <input type="text" name="landmark" class="form-input" value="{{ profile.landmark|default:'' }}" placeholder="যেমন: মসজিদের পাশে">
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="useGpsCheck" onchange="toggleGps()">
+                        <span class="checkbox-custom"></span>
+                        <span>আমার বর্তমান অবস্থান ব্যবহার করুন</span>
+                    </label>
+                    <input type="hidden" name="latitude" id="id_latitude" value="{{ profile.latitude|default:'' }}">
+                    <input type="hidden" name="longitude" id="id_longitude" value="{{ profile.longitude|default:'' }}">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%">সংরক্ষণ করুন</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function loadDistricts() {
+    var div = document.getElementById('id_division').value;
+    var dist = document.getElementById('id_district');
+    dist.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+    if (!div) return;
+    var d = getDistrictsByDivision(div);
+    d.forEach(function(i){ var o = document.createElement('option'); o.value=i[0]; o.textContent=i[1]; dist.appendChild(o); });
+    document.getElementById('id_upazila').innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+}
+
+function loadUpazilas() {
+    var dist = document.getElementById('id_district').value;
+    var up = document.getElementById('id_upazila');
+    up.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+    if (!dist) return;
+    var u = getUpazilasByDistrict(dist);
+    u.forEach(function(i){ var o = document.createElement('option'); o.value=i[0]; o.textContent=i[1]; up.appendChild(o); });
+}
+
+function toggleGps() {
+    if (document.getElementById('useGpsCheck').checked && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            document.getElementById('id_latitude').value = pos.coords.latitude;
+            document.getElementById('id_longitude').value = pos.coords.longitude;
+        });
+    }
+}
+</script>
+{% endblock %}

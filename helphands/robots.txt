@@ -1,0 +1,41 @@
+# https://www.robotstxt.org/robotstxt.html
+# HelpHands - Bangladesh Domestic Helper Platform
+
+User-agent: *
+Allow: /
+
+# Block AI training crawlers (but allow search bots)
+User-agent: CCBot
+Disallow: /
+
+# Allow all AI search bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.helphands.com/sitemap.xml
+
+# Block common scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

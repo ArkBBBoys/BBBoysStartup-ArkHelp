@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}আমার হায়ারিং - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container" style="max-width:720px">
+        <div class="dash-header-simple">
+            <h1>আমার হায়ারিং</h1>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline btn-sm">ড্যাশবোর্ডে ফিরুন</a>
+        </div>
+
+        <div class="status-tabs">
+            <a href="?status=" class="tab {% if not current_status %}active{% endif %}">সব</a>
+            <a href="?status=pending" class="tab {% if current_status == 'pending' %}active{% endif %}">অপেক্ষমাণ</a>
+            <a href="?status=active" class="tab {% if current_status == 'active' %}active{% endif %}">সক্রিয়</a>
+            <a href="?status=completed" class="tab {% if current_status == 'completed' %}active{% endif %}">সম্পন্ন</a>
+            <a href="?status=cancelled" class="tab {% if current_status == 'cancelled' %}active{% endif %}">বাতিল</a>
+        </div>
+
+        {% if hirings %}
+        <div class="hiring-list" style="margin-top:20px">
+            {% for hiring in hirings %}
+            <div class="hiring-card">
+                <div class="hiring-info">
+                    {% if user.profile.account_type == 'helper' %}
+                    <strong>{{ hiring.user.user.get_full_name }}</strong>
+                    {% else %}
+                    <strong>{{ hiring.helper.user_profile.user.get_full_name }}</strong>
+                    {% endif %}
+                    <span>শুরু: {{ hiring.start_date|date:"d M, Y" }}</span>
+                    {% if hiring.notes %}
+                    <span style="font-size:.8rem;color:var(--text-muted)">{{ hiring.notes|truncatechars:60 }}</span>
+                    {% endif %}
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <span class="status-badge {{ hiring.status }}">{{ hiring.get_status_display }}</span>
+
+                    {% if user.profile.account_type == 'helper' %}
+                        {% if hiring.status == 'pending' %}
+                        <a href="{% url 'hirings:accept_hiring' hiring.id %}" class="btn btn-primary btn-sm">গ্রহণ করুন</a>
+                        <a href="{% url 'hirings:cancel_hiring' hiring.id %}" class="btn btn-outline btn-sm" style="border-color:var(--error);color:var(--error)">প্রত্যাখ্যান</a>
+                        {% endif %}
+                        {% if hiring.status == 'active' %}
+                        <a href="{% url 'hirings:complete_hiring' hiring.id %}" class="btn btn-primary btn-sm">সম্পন্ন করুন</a>
+                        {% endif %}
+                    {% else %}
+                        {% if hiring.status == 'pending' %}
+                        <a href="{% url 'hirings:cancel_hiring' hiring.id %}" class="btn btn-outline btn-sm" style="border-color:var(--error);color:var(--error)">বাতিল</a>
+                        {% endif %}
+                        {% if hiring.status == 'completed' %}
+                            {% if hiring.can_review and not hiring.review %}
+                            <a href="{% url 'hirings:submit_review' hiring.id %}" class="btn btn-primary btn-sm">রিভিউ</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state" style="margin-top:20px">
+            <div class="empty-icon">📋</div>
+            <h3>কোনো হায়ারিং নেই</h3>
+            <p>এখনো কোনো হায়ারিং রিকোয়েস্ট নেই।</p>
+            <a href="{% url 'helpers:helper_list' %}" class="btn btn-primary">হেল্পার খুঁজুন</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.status-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--radius-sm);font-size:.88rem;font-weight:500;background:var(--bg-white);border:1px solid var(--border);color:var(--text-muted);transition:all .2s}
+.tab.active,.tab:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-subtle)}
+</style>
+{% endblock %}

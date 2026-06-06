@@ -1,0 +1,12 @@
+django
+django-jazzmin
+django-pwa
+django-storages[s3]
+django-anymail
+boto3
+whitenoise
+dj-database-url
+pillow
+psycopg2-binary
+python-dotenv
+django-allauth

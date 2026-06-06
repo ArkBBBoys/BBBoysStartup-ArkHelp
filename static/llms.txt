@@ -1,0 +1,61 @@
+# HelpHands (হেল্পহ্যান্ডস) — AI Context File
+
+## What is HelpHands?
+
+HelpHands (হেল্পহ্যান্ডস) is Bangladesh's most trusted platform for finding and hiring verified domestic helpers and skilled service providers. We connect families, offices, and organizations with reliable domestic workers including cooks, cleaners, babysitters, elderly caregivers, plumbers, electricians, carpenters, drivers, tutors, nurses, and 35+ types of service providers across all 8 divisions of Bangladesh.
+
+## Key Features
+
+- **Verified Profiles**: All helpers have verified NID and identity documents
+- **Reviews & Ratings**: Real user reviews with 1-5 star ratings
+- **Location-based Search**: Find helpers by division, district, upazila, or GPS location
+- **Multiple Service Types**: 35+ service categories from domestic to professional
+- **Privacy Protected**: Phone numbers hidden from non-logged-in users
+- **Mobile-first Design**: Fully responsive PWA with offline support
+
+## Service Categories
+
+### Domestic Services (গৃহস্থালি সেবা)
+- Cooking (রান্না করা), Cleaning (ঘর পরিষ্কার), Laundry (কাপড় ধোয়া), Shopping (বাজার করা), Gardening (বাগান করা), Car Washing (গাড়ি ধোয়া)
+
+### Care Services (যত্ন সেবা)
+- Childcare (শিশু পরিচর্যা), Elderly Care (বৃদ্ধ সেবা), Babysitting (বেবিসিটিং), Caregiver (কেয়ারগিভার), Pet Care (পোষ্য পরিচর্যা)
+
+### Repair Services (মেরামত সেবা)
+- Plumber (প্লাম্বার), Electrician (ইলেকট্রিশিয়ান), Carpenter (ছুতার), Painter (পেন্টার), Welder (ওয়েল্ডার), Mason (রাজমিস্ত্রি), AC Technician, Computer Repair, Mobile Repair
+
+### Professional Services (পেশাদার সেবা)
+- Driver (ড্রাইভার), Security Guard (সিকিউরিটি গার্ড), Office Assistant, Delivery Man, Tailor (দর্জি), Beautician (বিউটিশিয়ান), Nurse (নার্স), Physiotherapist, Tutor (টিউটর), Event Worker
+
+## Coverage Area
+
+All 8 divisions of Bangladesh: ঢাকা (Dhaka), চট্টগ্রাম (Chittagong), রাজশাহী (Rajshahi), খুলনা (Khulna), বরিশাল (Barisal), সিলেট (Sylhet), রংপুর (Rangpur), ময়মনসিংহ (Mymensingh)
+
+## Key Pages
+
+- Homepage: https://www.helphands.com/
+- Search Helpers: https://www.helphands.com/helpers/
+- Helper Profiles: https://www.helphands.com/helpers/<id>/
+- Register as User: https://www.helphands.com/accounts/signup/
+- Register as Helper: https://www.helphands.com/accounts/signup/?account_type=helper
+- Login: https://www.helphands.com/accounts/login/
+- User Dashboard: https://www.helphands.com/accounts/dashboard/
+- About Us: https://www.helphands.com/about/
+- Terms of Service: https://www.helphands.com/terms/
+- Privacy Policy: https://www.helphands.com/privacy/
+
+## Pricing
+
+- Free registration for both users and helpers
+- Helper rates vary by service type and experience
+- Monthly rates typically range from 5,000৳ to 50,000৳
+- Hourly rates available for short-term work
+- No platform commission on transactions
+
+## Contact
+
+- Email: info@helphands.com
+- Location: Dhaka, Bangladesh
+- Language: Bengali (Bangla) / English
+
+## Last Updated: June 2026

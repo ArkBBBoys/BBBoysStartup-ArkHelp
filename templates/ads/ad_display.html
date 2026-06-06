@@ -1,0 +1,175 @@
+{% load ad_tags %}
+{% load static %}
+
+<!-- Ad Display Template -->
+{% get_popup_ads as popup_ads %}
+
+{% if popup_ads %}
+{% for ad in popup_ads %}
+<div class="ad-popup" id="adPopup{{ ad.id }}" style="display: none;">
+    <div class="ad-popup-overlay"></div>
+    <div class="ad-popup-content">
+        {% if ad.show_close_button %}
+        <button class="ad-popup-close" onclick="closeAd({{ ad.id }})">&times;</button>
+        {% endif %}
+
+        <a href="#" onclick="trackAdClick({{ ad.id }}); return false;" class="ad-popup-link">
+            {% if ad.has_video %}
+                {% if ad.video %}
+                <video autoplay muted loop playsinline class="ad-video" style="max-width: 100%; max-height: 400px;">
+                    <source src="{{ ad.video.url }}" type="video/mp4">
+                </video>
+                {% elif ad.video_url %}
+                <iframe src="{{ ad.video_url }}" frameborder="0" allowfullscreen style="width: 100%; max-height: 400px;"></iframe>
+                {% endif %}
+            {% elif ad.image %}
+            <img src="{{ ad.image.url }}" alt="{{ ad.title }}" style="max-width: 100%; max-height: 400px;">
+            {% endif %}
+
+            {% if ad.title %}
+            <h3 class="ad-title">{{ ad.title }}</h3>
+            {% endif %}
+
+            {% if ad.description %}
+            <p class="ad-description">{{ ad.description }}</p>
+            {% endif %}
+        </a>
+
+        {% if ad.auto_close_seconds > 0 %}
+        <div class="ad-countdown" data-seconds="{{ ad.auto_close_seconds }}"></div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+(function() {
+    // Show popup after delay
+    setTimeout(function() {
+        var popup = document.getElementById('adPopup{{ ad.id }}');
+        if (popup) {
+            popup.style.display = 'flex';
+            // Track impression
+            fetch('/ads/track/impression/{{ ad.id }}/', {method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
+        }
+    }, 2000);
+
+    // Auto close
+    {% if ad.auto_close_seconds > 0 %}
+    setTimeout(function() {
+        closeAd({{ ad.id }});
+    }, {{ ad.auto_close_seconds }} * 1000);
+    {% endif %}
+})();
+</script>
+{% endfor %}
+{% endif %}
+
+<!-- CSS for Ads -->
+<style>
+.ad-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ad-popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.ad-popup-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: adPopupIn 0.3s ease;
+}
+
+@keyframes adPopupIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.ad-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.ad-popup-close:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.ad-popup-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.ad-title {
+    padding: 16px;
+    margin: 0;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.ad-description {
+    padding: 0 16px 16px;
+    text-align: center;
+    color: #666;
+}
+
+.ad-countdown {
+    text-align: center;
+    padding: 10px;
+    color: #999;
+    font-size: 0.875rem;
+}
+</style>
+
+<script>
+function closeAd(adId) {
+    var popup = document.getElementById('adPopup' + adId);
+    if (popup) {
+        popup.style.display = 'none';
+    }
+}
+
+function trackAdClick(adId) {
+    fetch('/ads/track/click/' + adId + '/', {method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}})
+    .then(response => response.json())
+    .then(data => {
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        }
+    });
+}
+</script>

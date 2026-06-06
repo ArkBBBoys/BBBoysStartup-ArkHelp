@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ helper.user_profile.user.get_full_name }} - হেল্পার প্রোফাইল | HelpHands{% endblock %}
+
+{% block meta_description %}{{ helper.user_profile.user.get_full_name }} - {{ helper.user_profile.get_district_display|default:"" }}, {{ helper.user_profile.get_division_display|default:"" }} থেকে {% for service in helper.get_display_services|slice:":3" %}{{ service }}{% if not forloop.last %}, {% endif %}{% endfor %} সেবা প্রদানকারী। রেটিং: {{ helper.average_rating|default:"0.0" }}, {{ helper.experience_years }} বছর অভিজ্ঞতা।{% endblock %}
+
+{% block canonical_url %}{% url 'helpers:helper_detail' helper.pk %}{% endblock %}
+
+{% block og_type %}profile{% endblock %}
+{% block og_title %}{{ helper.user_profile.user.get_full_name }} - হেল্পার প্রোফাইল{% endblock %}
+{% block og_description %}{{ helper.user_profile.user.get_full_name }} - {{ helper.user_profile.get_district_display|default:"" }} থেকে। রেটিং: {{ helper.average_rating|default:"0.0" }}{% endblock %}
+{% block og_image %}{% if helper.user_profile.profile_photo %}{{ helper.user_profile.profile_photo.url }}{% else %}{% static 'img/logo.svg' %}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="detail-page">
+    <div class="container">
+        <div class="detail-header reveal">
+            <div class="detail-photo-wrap">
+                {% if helper.user_profile.profile_photo %}
+                <img src="{{ helper.user_profile.profile_photo.url }}" alt="{{ helper.user_profile.user.get_full_name }}" class="detail-photo">
+                {% else %}
+                <div class="detail-avatar"><span>{{ helper.user_profile.user.get_initials|default:"হ" }}</span></div>
+                {% endif %}
+            </div>
+            <div class="detail-info">
+                <div class="detail-name-row">
+                    <h1>{{ helper.user_profile.user.get_full_name }}</h1>
+                    {% if helper.is_verified_by_admin %}
+                    <span class="verified-badge-lg">✓ ভেরিফাইড</span>
+                    {% endif %}
+                    <span class="availability-badge {{ helper.availability_status }}">{{ helper.get_availability_status_display }}</span>
+                </div>
+                <p class="detail-location">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    {{ helper.user_profile.get_division_display|default:"" }} - {{ helper.user_profile.get_district_display|default:"" }}
+                    {% if helper.user_profile.get_upazila_display %} - {{ helper.user_profile.get_upazila_display }}{% endif %}
+                </p>
+                <div class="detail-stats">
+                    <div class="stat">
+                        <span class="stat-value">{{ helper.average_rating|default:"0.0" }}</span>
+                        <span class="stat-label">রেটিং</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">{{ helper.total_reviews }}</span>
+                        <span class="stat-label">রিভিউ</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">{{ helper.experience_years }} বছর</span>
+                        <span class="stat-label">অভিজ্ঞতা</span>
+                    </div>
+                </div>
+                <div class="detail-price-row">
+                    {% if helper.monthly_rate %}
+                    <span class="price-tag monthly">{{ helper.monthly_rate }}৳ <small>/মাস</small></span>
+                    {% endif %}
+                    {% if helper.hourly_rate %}
+                    <span class="price-tag hourly">{{ helper.hourly_rate }}৳ <small>/ঘণ্টা</small></span>
+                    {% endif %}
+                </div>
+                <div class="detail-actions-wrap">
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-primary btn-lg" onclick="openModal('hireModal')">হায়ার করুন</button>
+                    {% else %}
+                    <a href="{% url 'accounts:login' %}?next={% url 'helpers:helper_detail' helper.pk %}" class="btn btn-primary btn-lg">লগইন করে হায়ার করুন</a>
+                    {% endif %}
+                    <button class="share-btn" data-share-title="{{ helper.user_profile.user.get_full_name }} - হেল্পহ্যান্ডস" data-share-text="এই হেল্পারটি দেখুন: {{ helper.user_profile.user.get_full_name }}" data-share-url="{{ request.build_absolute_uri }}" aria-label="শেয়ার করুন">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-body">
+            <div class="detail-main">
+                <section class="detail-section reveal">
+                    <h2>সেবাসমূহ</h2>
+                    <div class="services-list-detail">
+                        {% for service_code in helper.get_services_list %}
+                        {% for code, name in service_types %}
+                            {% if code == service_code %}
+                            <span class="service-chip">
+                                <span class="chip-icon">
+                                    {% if code == 'cooking' %}🍳{% elif code == 'cleaning' %}🧹{% elif code == 'childcare' %}👶{% elif code == 'elderly_care' %}👴{% elif code == 'gardening' %}🌱{% elif code == 'car_washing' %}🚗{% elif code == 'laundry' %}👕{% elif code == 'shopping' %}🛒{% elif code == 'babysitting' %}🍼{% elif code == 'caregiver' %}🤝{% elif code == 'plumber' %}🔧{% elif code == 'electrician' %}⚡{% elif code == 'carpenter' %}🪚{% elif code == 'painter' %}🎨{% elif code == 'welder' %}🔥{% elif code == 'mason' %}🧱{% elif code == 'driver' %}🚙{% elif code == 'security_guard' %}🛡️{% elif code == 'office_assistant' %}📋{% elif code == 'delivery_man' %}📦{% elif code == 'tailor' %}✂️{% elif code == 'beautician' %}💄{% elif code == 'masseur' %}💆{% elif code == 'nurse' %}🏥{% elif code == 'physiotherapist' %}🦴{% elif code == 'tutor' %}📚{% elif code == 'event_worker' %}🎪{% elif code == 'pest_control' %}🐜{% elif code == 'moving_help' %}📦{% elif code == 'pet_care' %}🐾{% elif code == 'home_repair' %}🔨{% elif code == 'ac_technician' %}❄️{% elif code == 'generator_tech' %}⚙️{% elif code == 'computer_repair' %}💻{% elif code == 'mobile_repair' %}📱{% else %}🔧{% endif %}
+                                </span>
+                                {{ name }}
+                            </span>
+                            {% endif %}
+                        {% endfor %}
+                        {% empty %}
+                        <p class="text-muted">কোনো সেবা নির্দিষ্ট করা হয়নি</p>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                {% if helper.bio %}
+                <section class="detail-section reveal">
+                    <h2>পরিচয়</h2>
+                    <div class="bio-card">
+                        <p>{{ helper.bio }}</p>
+                    </div>
+                </section>
+                {% endif %}
+
+                <section class="detail-section reveal">
+                    <h2>যোগাযোগ তথ্য</h2>
+                    <div class="contact-card">
+                        <div class="contact-row">
+                            <span class="contact-label">ঠিকানা</span>
+                            <span>{{ helper.user_profile.address|default:"নির্দিষ্ট করা হয়নি" }}</span>
+                        </div>
+                        <div class="contact-row">
+                            <span class="contact-label">উপজেলা</span>
+                            <span>{{ helper.user_profile.get_upazila_display|default:"নির্দিষ্ট করা হয়নি" }}</span>
+                        </div>
+                        {% if user.is_authenticated %}
+                        <div class="contact-row highlight">
+                            <span class="contact-label">ফোন</span>
+                            <span>{{ helper.user_profile.phone_number|default:"নির্দিষ্ট করা হয়নি" }}</span>
+                        </div>
+                        {% else %}
+                        <div class="contact-row login-required">
+                            <span>ফোন নম্বর দেখতে <a href="{% url 'accounts:login' %}?next={% url 'helpers:helper_detail' helper.pk %}">লগইন করুন</a></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <section class="detail-section reveal">
+                    <h2>রিভিউ ({{ helper.total_reviews }})</h2>
+                    {% if reviews %}
+                    <div class="reviews-list">
+                        {% for review in reviews %}
+                        <div class="review-card-modern">
+                            <div class="review-header">
+                                <span class="reviewer-name">{{ review.hiring.user.user.get_full_name }}</span>
+                                <span class="review-stars">{% for i in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+                            </div>
+                            <p>{{ review.comment }}</p>
+                            <span class="review-date">{{ review.created_at|date:"d M, Y" }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-small">
+                        <p>এই হেল্পারের কোনো রিভিউ নেই।</p>
+                    </div>
+                    {% endif %}
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="hireModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>হায়ার রিকোয়েস্ট</h3>
+            <button class="modal-close" onclick="closeModal('hireModal')">&times;</button>
+        </div>
+        <form method="post" action="{% url 'hirings:create_hiring' helper.pk %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">হেল্পার</label>
+                <input type="text" class="form-input" value="{{ helper.user_profile.user.get_full_name }}" disabled>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">শুরুর তারিখ *</label>
+                    <input type="date" name="start_date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">শেষ তারিখ</label>
+                    <input type="date" name="end_date" class="form-input">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">নোট (ঐচ্ছিক)</label>
+                <textarea name="notes" class="form-textarea" placeholder="কাজের বিবরণ লিখুন..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%">রিকোয়েস্ট পাঠান</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

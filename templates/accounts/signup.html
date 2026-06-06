@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}নিবন্ধন - হেল্পহ্যান্ডস{% endblock %}
+{% block meta_description %}হেল্পহ্যান্ডসে নিবন্ধন করুন। পরিবার হিসেবে হেল্পার খুঁজুন অথবা হেল্পার হিসেবে আপনার সেবা নিবন্ধন করুন।{% endblock %}
+{% block canonical_url %}{% url 'accounts:signup' %}{% endblock %}
+{% block og_title %}নিবন্ধন - হেল্পহ্যান্ডস{% endblock %}
+{% block og_description %}হেল্পহ্যান্ডস-এ নিবন্ধন করুন।{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="container">
+        <div class="auth-wrap">
+            <div class="auth-header">
+                <h1>নিবন্ধন করুন</h1>
+                <p>আপনার অ্যাকাউন্ট তৈরি করুন</p>
+            </div>
+
+            <div class="auth-card-modern">
+                <input type="hidden" name="account_type" id="accountTypeInput" value="user">
+                <div class="type-toggle">
+                    <button type="button" id="userTypeBtn" class="type-option active" onclick="setAccountType('user')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        ব্যবহারকারী
+                    </button>
+                    <button type="button" id="helperTypeBtn" class="type-option" onclick="setAccountType('helper')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        হেল্পার
+                    </button>
+                </div>
+
+                <form method="post" class="auth-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="account_type" id="accountTypeField" value="user">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">নাম (প্রথম) *</label>
+                            <input type="text" name="first_name" class="form-input" placeholder="আপনার নাম" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">নাম (শেষ)</label>
+                            <input type="text" name="last_name" class="form-input" placeholder="পদবি (ঐচ্ছিক)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">ইমেইল *</label>
+                            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ফোন নম্বর *</label>
+                            <input type="tel" name="phone_number" class="form-input" placeholder="01XXXXXXXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">পাসওয়ার্ড *</label>
+                            <input type="password" name="password1" class="form-input" placeholder="কমপক্ষে ৮ অক্ষর" required minlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">পাসওয়ার্ড নিশ্চিত করুন *</label>
+                            <input type="password" name="password2" class="form-input" placeholder="পাসওয়ার্ড আবার লিখুন" required minlength="8">
+                        </div>
+                    </div>
+
+                    <div class="form-group terms-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms_accepted" required>
+                            <span class="checkbox-custom"></span>
+                            <span>আমি <a href="{% url 'terms' %}" target="_blank">শর্তাবলী</a> এবং <a href="{% url 'privacy' %}" target="_blank">গোপনীয়তা নীতি</a> পড়েছি এবং মেনে নিচ্ছি *</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">নিবন্ধন করুন</button>
+                </form>
+
+                <p class="auth-switch">ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="{% url 'accounts:login' %}">লগইন করুন</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setAccountType(type) {
+    document.getElementById('accountTypeInput').value = type;
+    document.getElementById('accountTypeField').value = type;
+
+    var userBtn = document.getElementById('userTypeBtn');
+    var helperBtn = document.getElementById('helperTypeBtn');
+
+    userBtn.classList.toggle('active', type === 'user');
+    helperBtn.classList.toggle('active', type === 'helper');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('account_type') === 'helper') {
+        setAccountType('helper');
+    }
+});
+</script>
+{% endblock %}

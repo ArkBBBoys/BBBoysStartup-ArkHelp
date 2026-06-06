@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}হেল্পার প্রোফাইল সম্পাদনা - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container" style="max-width:720px">
+        <div class="dash-header-simple">
+            <h1>হেল্পার প্রোফাইল</h1>
+            <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline btn-sm">ড্যাশবোর্ডে ফিরুন</a>
+        </div>
+
+        <div class="form-card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3 class="section-divider">সেবা ও দক্ষতা</h3>
+
+                <div class="form-group">
+                    <label class="form-label">আপনার সেবাসমূহ *</label>
+                    <div class="service-checkboxes">
+                        {% for category, cat_name, services in service_categories %}
+                        <div class="service-category-group">
+                            <h4 class="cat-label">{{ cat_name }}</h4>
+                            <div class="checkbox-grid">
+                                {% for code, name in service_types %}
+                                    {% if code in services %}
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" name="service_types" value="{{ code }}" {% if code in current_services %}checked{% endif %}>
+                                        <span class="checkbox-card-content">
+                                            <span class="checkbox-icon">{{ service_icons|dictsort:code|first|default:"🔧" }}</span>
+                                            <span>{{ name }}</span>
+                                        </span>
+                                    </label>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">অভিজ্ঞতা (বছর)</label>
+                        <input type="number" name="experience_years" class="form-input" value="{{ helper_profile.experience_years|default:'0' }}" min="0" max="70">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">উপলব্ধতা</label>
+                        <select name="availability_status" class="form-select">
+                            <option value="available" {% if helper_profile.availability_status == 'available' %}selected{% endif %}>উপলব্ধ</option>
+                            <option value="busy" {% if helper_profile.availability_status == 'busy' %}selected{% endif %}>ব্যস্ত</option>
+                            <option value="unavailable" {% if helper_profile.availability_status == 'unavailable' %}selected{% endif %}>অনুপলব্ধ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 class="section-divider">মূল্য নির্ধারণ</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">মাসিক মজুরি (৳)</label>
+                        <input type="number" name="monthly_rate" class="form-input" value="{{ helper_profile.monthly_rate|default:'' }}" placeholder="যেমন: 15000" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ঘণ্টা প্রতি মজুরি (৳)</label>
+                        <input type="number" name="hourly_rate" class="form-input" value="{{ helper_profile.hourly_rate|default:'' }}" placeholder="যেমন: 200" step="0.01">
+                    </div>
+                </div>
+
+                <h3 class="section-divider">পরিচয়</h3>
+
+                <div class="form-group">
+                    <label class="form-label">আপনার সম্পর্কে লিখুন</label>
+                    <textarea name="bio" class="form-textarea" placeholder="আপনার অভিজ্ঞতা, দক্ষতা ও সম্পর্কে লিখুন...">{{ helper_profile.bio|default:'' }}</textarea>
+                </div>
+
+                <h3 class="section-divider">যাচাইকরণ</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">জাতীয় পরিচয়পত্র নম্বর</label>
+                        <input type="text" name="national_id_number" class="form-input" value="{{ helper_profile.national_id_number|default:'' }}" placeholder="NID নম্বর">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">এনআইডি কার্ডের ছবি</label>
+                        <div class="photo-upload">
+                            {% if helper_profile.nid_card_image %}
+                            <img src="{{ helper_profile.nid_card_image.url }}" class="preview-photo" style="max-width:200px">
+                            {% endif %}
+                            <input type="file" name="nid_card_image" accept="image/*" class="file-input" id="nidInput">
+                            <label for="nidInput" class="file-label">ছবি নির্বাচন করুন</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px">সংরক্ষণ করুন</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

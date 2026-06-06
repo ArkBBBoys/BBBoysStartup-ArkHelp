@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ড্যাশবোর্ড - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <div class="dash-hero">
+        <div class="container">
+            <div class="dash-welcome">
+                <h2>স্বাগতম, {{ user.first_name|default:user.username }}!</h2>
+                <p>আপনার ড্যাশবোর্ড</p>
+            </div>
+            <div class="dash-quick-actions">
+                <a href="{% url 'helpers:helper_list' %}" class="action-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    হেল্পার খুঁজুন
+                </a>
+                <a href="{% url 'accounts:edit_profile' %}" class="action-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    প্রোফাইল সম্পাদনা
+                </a>
+                <a href="{% url 'hirings:my_hirings' %}" class="action-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    আমার হায়ারিং
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="padding-top:32px">
+        {% if reviewable_hirings %}
+        <section class="dash-section reveal">
+            <h3>রিভিউ লিখুন</h3>
+            <div class="review-cards">
+                {% for hiring in reviewable_hirings %}
+                <div class="review-card-mini">
+                    <div class="review-helper-info">
+                        <span class="review-helper-name">{{ hiring.helper.user_profile.user.get_full_name }}</span>
+                        <span class="review-date-label">{{ hiring.start_date|date:"d M, Y" }}</span>
+                    </div>
+                    <a href="{% url 'hirings:submit_review' hiring.id %}" class="btn btn-primary btn-sm">রিভিউ লিখুন</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="dash-section reveal">
+            <h3>সাম্প্রতিক হায়ারিং</h3>
+            {% if my_hirings %}
+            <div class="hiring-list">
+                {% for hiring in my_hirings %}
+                <div class="hiring-card">
+                    <div class="hiring-info">
+                        <strong>{{ hiring.helper.user_profile.user.get_full_name }}</strong>
+                        <span>শুরু: {{ hiring.start_date|date:"d M, Y" }}</span>
+                        {% if hiring.notes %}
+                        <span style="font-size:.8rem;color:var(--text-muted)">{{ hiring.notes|truncatechars:60 }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="status-badge {{ hiring.status }}">{{ hiring.get_status_display }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'hirings:my_hirings' %}" class="btn btn-outline btn-sm" style="margin-top:12px">সব হায়ারিং দেখুন</a>
+            {% else %}
+            <p class="text-muted">কোনো হায়ারিং নেই। হেল্পার খুঁজুন এবং হায়ার রিকোয়েস্ট পাঠান।</p>
+            {% endif %}
+        </section>
+
+        <section class="dash-section reveal">
+            <h3>দ্রুত লিংক</h3>
+            <div class="info-cards" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+                <a href="{% url 'helpers:helper_list' %}?service_type=cooking" class="info-card" style="text-decoration:none;color:inherit">
+                    <span class="info-icon">🍳</span>
+                    <h3 style="font-size:.95rem">রান্নাকারী খুঁজুন</h3>
+                </a>
+                <a href="{% url 'helpers:helper_list' %}?service_type=cleaning" class="info-card" style="text-decoration:none;color:inherit">
+                    <span class="info-icon">🧹</span>
+                    <h3 style="font-size:.95rem">পরিষ্কারকারী খুঁজুন</h3>
+                </a>
+                <a href="{% url 'helpers:helper_list' %}?service_type=childcare" class="info-card" style="text-decoration:none;color:inherit">
+                    <span class="info-icon">👶</span>
+                    <h3 style="font-size:.95rem">শিশু পরিচর্যাকারী খুঁজুন</h3>
+                </a>
+                <a href="{% url 'helpers:helper_list' %}?service_type=elderly_care" class="info-card" style="text-decoration:none;color:inherit">
+                    <span class="info-icon">👴</span>
+                    <h3 style="font-size:.95rem">বৃদ্ধ সেবাকারী খুঁজুন</h3>
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}লগইন - হেল্পহ্যান্ডস{% endblock %}
+{% block meta_description %}হেল্পহ্যান্ডসে লগইন করুন।{% endblock %}
+{% block canonical_url %}{% url 'accounts:login' %}{% endblock %}
+{% block og_title %}লগইন - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="container">
+        <div class="auth-wrap">
+            <div class="auth-header">
+                <h1>লগইন করুন</h1>
+                <p>আপনার অ্যাকাউন্টে প্রবেশ করুন</p>
+            </div>
+
+            <div class="auth-card-modern">
+                <form method="post" class="auth-form">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label class="form-label">ইমেইল</label>
+                        <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">পাসওয়ার্ড</label>
+                        <input type="password" name="password" class="form-input" placeholder="আপনার পাসওয়ার্ড" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top:-8px">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember">
+                            <span class="checkbox-custom"></span>
+                            <span>মনে রাখুন</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">লগইন</button>
+                </form>
+
+                <p class="auth-switch">অ্যাকাউন্ট নেই? <a href="{% url 'accounts:signup' %}">নিবন্ধন করুন</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

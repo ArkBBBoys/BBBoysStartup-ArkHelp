@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}হায়ার রিকোয়েস্ট - হেল্পহ্যান্ডস{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container" style="max-width:580px">
+        <div class="dash-header-simple">
+            <h1>হায়ার রিকোয়েস্ট</h1>
+            <a href="{% url 'helpers:helper_detail' helper.pk %}" class="btn btn-outline btn-sm">প্রোফাইলে ফিরুন</a>
+        </div>
+
+        <div class="form-card">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)">
+                {% if helper.user_profile.profile_photo %}
+                <img src="{{ helper.user_profile.profile_photo.url }}" style="width:64px;height:64px;object-fit:cover;border-radius:12px">
+                {% endif %}
+                <div>
+                    <h3 style="margin-bottom:2px">{{ helper.user_profile.user.get_full_name }}</h3>
+                    <p style="margin:0;font-size:.88rem">{{ helper.user_profile.get_district_display|default:'' }} - {{ helper.user_profile.get_division_display|default:'' }}</p>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">শুরুর তারিখ *</label>
+                    <input type="date" name="start_date" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">নোট (ঐচ্ছিক)</label>
+                    <textarea name="notes" class="form-textarea" placeholder="কাজের বিবরণ, সময়, ঠিকানা ইত্যাদি লিখুন..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%">রিকোয়েস্ট পাঠান</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
