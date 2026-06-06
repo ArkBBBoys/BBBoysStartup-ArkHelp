@@ -36,6 +36,7 @@ dependencies = [
     { name = "django-jazzmin" },
     { name = "django-pwa" },
     { name = "django-storages", extra = ["s3"] },
+    { name = "gunicorn" },
     { name = "pillow" },
     { name = "psycopg2" },
     { name = "psycopg2-binary" },
@@ -53,6 +54,7 @@ requires-dist = [
     { name = "django-jazzmin", specifier = ">=3.0.4" },
     { name = "django-pwa", specifier = ">=2.0.1" },
     { name = "django-storages", extras = ["s3"], specifier = ">=1.14.6" },
+    { name = "gunicorn", specifier = ">=26.0.0" },
     { name = "pillow", specifier = ">=12.2.0" },
     { name = "psycopg2", specifier = ">=2.9.12" },
     { name = "psycopg2-binary", specifier = ">=2.9.12" },
@@ -80,30 +82,30 @@ wheels = [
 
 [[package]]
 name = "boto3"
-version = "1.43.23"
+version = "1.43.24"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore" },
     { name = "jmespath" },
     { name = "s3transfer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/51/7e/18f6d87625930231708681ccfba20c2c6ade8d977c37d388992c0589efdd/boto3-1.43.23.tar.gz", hash = "sha256:5d26498702ffd021dc0d57d0eefcc7101cd995ea0ed08c057c9b631efccbaa48", size = 113242, upload-time = "2026-06-04T19:39:37.651Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f3/8f/94dfa39ec618ecb2fe5b5b79428c95100e3ae3c1aa5083c283dd3cfb5ecd/boto3-1.43.24.tar.gz", hash = "sha256:ba5afa266bf7265e0c1a454fcfd48bffe5939cb16ed223bebc669c3dc8ee0bc8", size = 113154, upload-time = "2026-06-05T19:30:01.635Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/1e/27b67ee4d10cc755aa9a35d45aa476d7bb2366c4dea91b0db94fa0fe27bd/boto3-1.43.23-py3-none-any.whl", hash = "sha256:8afc058924ef8a5c62467fe2e1e2e0304c22018587a044714da89f9c602ba856", size = 140536, upload-time = "2026-06-04T19:39:34.657Z" },
+    { url = "https://files.pythonhosted.org/packages/59/b7/e66c9b37b96153aa371fe48d24194151293f6577dd3eaa1fc146c281456d/boto3-1.43.24-py3-none-any.whl", hash = "sha256:b18ef745274ef548a9660d733d985d4a971b16bd8a6af88165ea9d0e40913b86", size = 140536, upload-time = "2026-06-05T19:29:58.968Z" },
 ]
 
 [[package]]
 name = "botocore"
-version = "1.43.23"
+version = "1.43.24"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jmespath" },
     { name = "python-dateutil" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fb/79/9c3313d8be64ebff5a100d73777d5c6249229ceee57e269a0830b2f7d3a3/botocore-1.43.23.tar.gz", hash = "sha256:a6737c598750f330bfa8ef2be2d9fa84b5d2d643b6bbb0d22e129e03b7535df1", size = 15464775, upload-time = "2026-06-04T19:39:26.6Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/78/67/55d0611b341482bc9649d16df765f849a1862184ac3709356decf632279f/botocore-1.43.24.tar.gz", hash = "sha256:0c02f2b40e99419d496ece0ea2dcdedb5c45998c16fd1674276c7dbb30767a16", size = 15471690, upload-time = "2026-06-05T19:29:33.731Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/0e/63e4720c6fe6dab278faf9f09b59c377e49a9f9a1afaec2c69dc2e7b9de2/botocore-1.43.23-py3-none-any.whl", hash = "sha256:69ff3d951cb644d1d84db646663c7eb919dc9c0c47e5768e947c8a71121b3d77", size = 15147962, upload-time = "2026-06-04T19:39:22.141Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/b7/360b5afe74c4d7cff871ea6e8f335e2e11de2945c9deb1eea6438f49faa2/botocore-1.43.24-py3-none-any.whl", hash = "sha256:42903b4bfafd8f15a735ed940473f28e4ba21b2ea67a9b9aaa11dfa7fcb19fd5", size = 15155182, upload-time = "2026-06-05T19:29:29.457Z" },
 ]
 
 [[package]]
@@ -269,6 +271,18 @@ s3 = [
 ]
 
 [[package]]
+name = "gunicorn"
+version = "26.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/b7/a4a3f632f823e432ce6bc65f62961b7980c898c77f075a2f7118cb3846fe/gunicorn-26.0.0.tar.gz", hash = "sha256:ca9346f85e3a4aeeb64d491045c16b9a35647abd37ea15efe53080eb8b090baf", size = 727286, upload-time = "2026-05-05T06:38:25.529Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/40/9c2384fc2be4ad25dd4a49decd5ad9ea5a3639814c11bd40ab77cb9f0a14/gunicorn-26.0.0-py3-none-any.whl", hash = "sha256:40233d26a5f0d1872916188c276e21641155111c2853f0c2cd55260aec0d24fc", size = 212009, upload-time = "2026-05-05T06:38:23.007Z" },
+]
+
+[[package]]
 name = "h11"
 version = "0.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -321,6 +335,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d3/59/322338183ecda247fb5d1763a6cbe46eff7222eaeebafd9fa65d4bf5cb11/jmespath-1.1.0.tar.gz", hash = "sha256:472c87d80f36026ae83c6ddd0f1d05d4e510134ed462851fd5f754c8c3cbb88d", size = 27377, upload-time = "2026-01-22T16:35:26.279Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/14/2f/967ba146e6d58cf6a652da73885f52fc68001525b4197effc174321d70b4/jmespath-1.1.0-py3-none-any.whl", hash = "sha256:a5663118de4908c91729bea0acadca56526eb2698e83de10cd116ae0f4e97c64", size = 20419, upload-time = "2026-01-22T16:35:24.919Z" },
+]
+
+[[package]]
+name = "packaging"
+version = "26.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/f1/e7a6dd94a8d4a5626c03e4e99c87f241ba9e350cd9e6d75123f992427270/packaging-26.2.tar.gz", hash = "sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661", size = 228134, upload-time = "2026-04-24T20:15:23.917Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl", hash = "sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e", size = 100195, upload-time = "2026-04-24T20:15:22.081Z" },
 ]
 
 [[package]]
