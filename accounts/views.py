@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db import IntegrityError
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -62,13 +63,28 @@ def signup(request):
                 'service_icons': SERVICE_TYPE_ICONS,
             })
 
-        user = User.objects.create_user(
-            username=email.split('@')[0],
-            email=email,
-            password=password1,
-            first_name=first_name,
-            last_name=last_name
-        )
+        base_username = email.split('@')[0]
+        username = base_username
+        counter = 1
+        while User.objects.filter(username=username).exists():
+            username = f'{base_username}{counter}'
+            counter += 1
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password1,
+                first_name=first_name,
+                last_name=last_name
+            )
+        except IntegrityError:
+            messages.error(request, 'এই তথ্য দিয়ে নিবন্ধন সম্ভব হচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।')
+            return render(request, 'accounts/signup.html', {
+                'divisions': DIVISION_CHOICES,
+                'service_categories': SERVICE_CATEGORIES,
+                'service_icons': SERVICE_TYPE_ICONS,
+            })
 
         profile = UserProfile.objects.get(user=user)
         profile.account_type = account_type
