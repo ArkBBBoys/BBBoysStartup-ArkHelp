@@ -1,8 +1,8 @@
-# HelpHands (হেল্পহ্যান্ডস) — AI Context File
+# Khujo (Khujo) — AI Context File
 
-## What is HelpHands?
+## What is Khujo?
 
-HelpHands (হেল্পহ্যান্ডস) is Bangladesh's most trusted platform for finding and hiring verified domestic helpers and skilled service providers. We connect families, offices, and organizations with reliable domestic workers including cooks, cleaners, babysitters, elderly caregivers, plumbers, electricians, carpenters, drivers, tutors, nurses, and 35+ types of service providers across all 8 divisions of Bangladesh.
+Khujo (Khujo) is Bangladesh's most trusted platform for finding and hiring verified domestic helpers and skilled service providers. We connect families, offices, and organizations with reliable domestic workers including cooks, cleaners, babysitters, elderly caregivers, plumbers, electricians, carpenters, drivers, tutors, nurses, and 35+ types of service providers across all 8 divisions of Bangladesh.
 
 ## Key Features
 
@@ -33,16 +33,16 @@ All 8 divisions of Bangladesh: ঢাকা (Dhaka), চট্টগ্রাম
 
 ## Key Pages
 
-- Homepage: https://www.helphands.com/
-- Search Helpers: https://www.helphands.com/helpers/
-- Helper Profiles: https://www.helphands.com/helpers/<id>/
-- Register as User: https://www.helphands.com/accounts/signup/
-- Register as Helper: https://www.helphands.com/accounts/signup/?account_type=helper
-- Login: https://www.helphands.com/accounts/login/
-- User Dashboard: https://www.helphands.com/accounts/dashboard/
-- About Us: https://www.helphands.com/about/
-- Terms of Service: https://www.helphands.com/terms/
-- Privacy Policy: https://www.helphands.com/privacy/
+- Homepage: https://www.khujo.pro.bd/
+- Search Helpers: https://www.khujo.pro.bd/helpers/
+- Helper Profiles: https://www.khujo.pro.bd/helpers/<id>/
+- Register as User: https://www.khujo.pro.bd/accounts/signup/
+- Register as Helper: https://www.khujo.pro.bd/accounts/signup/?account_type=helper
+- Login: https://www.khujo.pro.bd/accounts/login/
+- User Dashboard: https://www.khujo.pro.bd/accounts/dashboard/
+- About Us: https://www.khujo.pro.bd/about/
+- Terms of Service: https://www.khujo.pro.bd/terms/
+- Privacy Policy: https://www.khujo.pro.bd/privacy/
 
 ## Pricing
 
@@ -54,7 +54,7 @@ All 8 divisions of Bangladesh: ঢাকা (Dhaka), চট্টগ্রাম
 
 ## Contact
 
-- Email: info@helphands.com
+- Email: info@khujo.pro.bd
 - Location: Dhaka, Bangladesh
 - Language: Bengali (Bangla) / English
 

@@ -108,11 +108,11 @@ def signup(request):
             html_content = render_to_string('emails/verification.html', {
                 'user': user,
                 'verify_url': verify_url,
-                'site_name': 'HelpHands',
+                'site_name': 'Khujo',
             })
             msg = EmailMultiAlternatives(
-                'HelpHands - ইমেইল যাচাই',
-                f'স্বাগতম! আপনার HelpHands অ্যাকাউন্ট যাচাই করতে এই লিঙ্কে ক্লিক করুন: {verify_url}',
+                'Khujo - ইমেইল যাচাই',
+                f'স্বাগতম! আপনার Khujo অ্যাকাউন্ট যাচাই করতে এই লিঙ্কে ক্লিক করুন: {verify_url}',
                 settings.DEFAULT_FROM_EMAIL,
                 [email]
             )

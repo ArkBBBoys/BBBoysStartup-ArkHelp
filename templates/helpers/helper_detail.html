@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ helper.user_profile.user.get_full_name }} - হেল্পার প্রোফাইল | HelpHands{% endblock %}
+{% block title %}{{ helper.user_profile.user.get_full_name }} - হেল্পার প্রোফাইল | Khujo{% endblock %}
 
 {% block meta_description %}{{ helper.user_profile.user.get_full_name }} - {{ helper.user_profile.get_district_display|default:"" }}, {{ helper.user_profile.get_division_display|default:"" }} থেকে {% for service in helper.get_display_services|slice:":3" %}{{ service }}{% if not forloop.last %}, {% endif %}{% endfor %} সেবা প্রদানকারী। রেটিং: {{ helper.average_rating|default:"0.0" }}, {{ helper.experience_years }} বছর অভিজ্ঞতা।{% endblock %}
 
@@ -64,7 +64,7 @@
                     {% else %}
                     <a href="{% url 'accounts:login' %}?next={% url 'helpers:helper_detail' helper.pk %}" class="btn btn-primary btn-lg">লগইন করে হায়ার করুন</a>
                     {% endif %}
-                    <button class="share-btn" data-share-title="{{ helper.user_profile.user.get_full_name }} - হেল্পহ্যান্ডস" data-share-text="এই হেল্পারটি দেখুন: {{ helper.user_profile.user.get_full_name }}" data-share-url="{{ request.build_absolute_uri }}" aria-label="শেয়ার করুন">
+                    <button class="share-btn" data-share-title="{{ helper.user_profile.user.get_full_name }} - Khujo" data-share-text="এই হেল্পারটি দেখুন: {{ helper.user_profile.user.get_full_name }}" data-share-url="{{ request.build_absolute_uri }}" aria-label="শেয়ার করুন">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                     </button>
                 </div>

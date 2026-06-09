@@ -1,5 +1,5 @@
 """
-XML Sitemap for HelpHands - Bangladesh Domestic Helper Platform
+XML Sitemap for Khujo - Bangladesh Domestic Helper Platform
 """
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse

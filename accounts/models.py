@@ -93,7 +93,7 @@ class HelperProfile(models.Model):
 
 
 class SiteConfiguration(models.Model):
-    site_name = models.CharField(max_length=100, default='HelpHands')
+    site_name = models.CharField(max_length=100, default='Khujo')
     site_description = models.TextField(blank=True)
     debug_mode = models.BooleanField(
         default=True,

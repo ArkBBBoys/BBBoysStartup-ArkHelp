@@ -124,7 +124,7 @@ ANYMAIL = {
 }
 
 EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'HelpHands <onboarding@resend.dev>')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Khujo <onboarding@resend.dev>')
 
 SITE_ID = 1
 
@@ -133,10 +133,10 @@ LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 JAZZMIN_SETTINGS = {
-    'site_title': 'HelpHands Admin',
-    'site_header': 'HelpHands Admin',
-    'site_brand': 'HelpHands',
-    'welcome_sign': 'হেল্পহ্যান্ডস অ্যাডমিন প্যানেলে স্বাগতম',
+    'site_title': 'Khujo Admin',
+    'site_header': 'Khujo Admin',
+    'site_brand': 'Khujo',
+    'welcome_sign': 'Khujo অ্যাডমিন প্যানেলে স্বাগতম',
     "show_sidebar": True,
     "order_with_respect_to": ["auth"],
 }
@@ -151,7 +151,7 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "darkly",
 }
 
-PWA_APP_NAME = 'HelpHands'
+PWA_APP_NAME = 'Khujo'
 PWA_APP_DESCRIPTION = "বিশ্বস্ত কাজের লোক খুঁজুন সহজেই"
 PWA_APP_THEME_COLOR = '#1a6b3c'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'

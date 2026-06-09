@@ -1,7 +1,7 @@
 [project]
 name = "arkhelps"
 version = "1.0.0"
-description = "HelpHands - Bangladesh's trusted domestic helper platform"
+description = "Khujo - Bangladesh's trusted domestic helper platform"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

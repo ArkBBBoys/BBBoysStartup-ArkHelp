@@ -1,5 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
-# HelpHands - Bangladesh Domestic Helper Platform
+# Khujo - Bangladesh Domestic Helper Platform
 
 User-agent: *
 Allow: /
@@ -28,7 +28,7 @@ User-agent: ClaudeBot
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.helphands.com/sitemap.xml
+Sitemap: https://khujo.pro.bd/sitemap.xml
 
 # Block common scrapers
 User-agent: AhrefsBot

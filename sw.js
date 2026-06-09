@@ -1,4 +1,4 @@
-const CACHE_NAME = 'helphands-v1';
+const CACHE_NAME = 'khujo-v1';
 const urlsToCache = [
     '/',
     '/static/css/style.css',

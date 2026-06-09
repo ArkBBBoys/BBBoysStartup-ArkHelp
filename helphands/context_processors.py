@@ -17,7 +17,7 @@ def site_config(request):
             'site_config': None,
             'debug_mode': True,
             'site_url': 'http://localhost:8000',
-            'site_name': 'HelpHands',
+            'site_name': 'Khujo',
             'contact_email': '',
             'contact_phone': '',
         }

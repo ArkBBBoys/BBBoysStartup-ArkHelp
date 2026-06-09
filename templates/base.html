@@ -4,29 +4,29 @@
 <html lang="bn" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="description" content="{% block meta_description %}HelpHands (হেল্পহ্যান্ডস) - বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার খুঁজে পাওয়ার প্ল্যাটফর্ম। রান্না, পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান সহ সকল ধরনের সেবা।{% endblock %}">
+    <meta name="description" content="{% block meta_description %}Khujo (Khujo) - বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার খুঁজে পাওয়ার প্ল্যাটফর্ম। রান্না, পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান সহ সকল ধরনের সেবা।{% endblock %}">
     <meta name="keywords" content="হেল্পার, কাজের লোক, ডোমেস্টিক হেল্পার, বাংলাদেশ, রান্নাকারী, ঘর পরিষ্কার, শিশু পরিচর্যা, বৃদ্ধ সেবা, প্লাম্বার, ইলেকট্রিশিয়ান, বেবিসিটার, কেয়ারগিভার">
-    <meta name="author" content="HelpHands">
+    <meta name="author" content="Khujo">
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
 
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:title" content="{% block og_title %}HelpHands (হেল্পহ্যান্ডস) - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Khujo (Khujo) - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
     <meta property="og:description" content="{% block og_description %}বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। রিভিউ ও রেটিং দেখে সঠিক হেল্পার খুঁজে পান।{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{% static 'img/logo.png' %}{% endblock %}">
     <meta property="og:locale" content="bn_BD">
-    <meta property="og:site_name" content="HelpHands হেল্পহ্যান্ডস">
+    <meta property="og:site_name" content="Khujo Khujo">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}HelpHands - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}Khujo - বিশ্বস্ত হেল্পার খুঁজুন সহজেই{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম।{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{% static 'img/logo.png' %}{% endblock %}">
 
-    <title>{% block title %}HelpHands (হেল্পহ্যান্ডস){% endblock %}</title>
+    <title>{% block title %}Khujo (Khujo){% endblock %}</title>
 
     <link rel="manifest" href="{% url 'pwa-manifest' %}">
 
@@ -45,16 +45,16 @@
     {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "HelpHands হেল্পহ্যান্ডস",
-        "alternateName": "HelpHands",
-        "url": "{{ site_url|default:'https://www.helphands.com' }}",
-        "logo": "{{ site_url|default:'https://www.helphands.com' }}{% static 'img/logo.png' %}",
+        "name": "Khujo Khujo",
+        "alternateName": "Khujo",
+        "url": "{{ site_url|default:'https://www.khujo.pro.bd' }}",
+        "logo": "{{ site_url|default:'https://www.khujo.pro.bd' }}{% static 'img/logo.png' %}",
         "description": "বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম",
         "areaServed": {"@type": "Country", "name": "Bangladesh"},
         "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "customer service",
-            "email": "{{ contact_email|default:'info@helphands.com' }}",
+            "email": "{{ contact_email|default:'info@khujo.pro.bd' }}",
             "areaServed": "BD",
             "availableLanguage": ["Bengali", "English"]
         }
@@ -65,6 +65,7 @@
     {% block service_schema %}{% endblock %}
 </head>
 <body>
+
     {% get_popup_ads as popup_ads %}
     {% if popup_ads %}
     {% for ad in popup_ads %}
@@ -102,118 +103,141 @@
     {% endfor %}
     {% endif %}
 
-    <nav class="navbar" id="navbar">
-        <div class="container navbar-container">
-            <a href="{% url 'helpers:home' %}" class="navbar-brand">
-                <img src="{% static 'img/logo.png' %}" alt="HelpHands" class="navbar-logo">
-                <span class="navbar-brand-text">হেল্পহ্যান্ডস</span>
-            </a>
+    <div class="app-shell">
 
-            <button class="navbar-toggle" id="navbarToggle" aria-label="মেনু">
-                <span></span><span></span><span></span>
-            </button>
-
-            <div class="navbar-menu" id="navbarMenu">
-                <a href="{% url 'helpers:helper_list' %}" class="nav-link">হেল্পার খুঁজুন</a>
-                <a href="{% url 'about' %}" class="nav-link">আমাদের সম্পর্কে</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:dashboard' %}" class="nav-link">ড্যাশবোর্ড</a>
-                    {% if user.profile.account_type == 'helper' %}
-                    <a href="{% url 'hirings:my_hirings' %}" class="nav-link">আমার হায়ারিং</a>
+        <header class="app-header">
+            <div class="app-header-inner">
+                <a href="{% url 'helpers:home' %}" class="app-header-brand">
+                    <img src="{% static 'img/logo.png' %}" alt="Khujo" class="app-header-logo">
+                    <span class="app-header-title">Khujo</span>
+                </a>
+                <div class="app-header-actions">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:edit_profile' %}" class="header-action-btn" aria-label="নোটিফিকেশন">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </a>
                     {% endif %}
-                    <div class="navbar-left-actions">
-                        <a href="{% url 'accounts:edit_profile' %}" class="notification-badge" aria-label="নোটিফিকেশন" title="নোটিফিকেশন">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        </a>
-                        <form method="post" action="{% url 'accounts:logout' %}" class="nav-form" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline btn-sm">লগআউট</button>
-                        </form>
-                    </div>
-                {% else %}
-                    <a href="{% url 'accounts:login' %}" class="nav-link">লগইন</a>
-                    <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-sm">নিবন্ধন</a>
+                    <button class="header-action-btn theme-toggle" id="themeToggle" aria-label="থিম পরিবর্তন">
+                        <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="header-action-btn mobile-menu-btn" id="navbarToggle" aria-label="মেনু">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+        <div class="mobile-drawer" id="mobileDrawer">
+            <div class="mobile-drawer-header">
+                <span class="mobile-drawer-title">মেনু</span>
+                <button class="mobile-drawer-close" id="mobileDrawerClose">&times;</button>
+            </div>
+            <div class="mobile-drawer-links">
+                <a href="{% url 'helpers:helper_list' %}" class="mobile-drawer-link">হেল্পার খুঁজুন</a>
+                <a href="{% url 'about' %}" class="mobile-drawer-link">আমাদের সম্পর্কে</a>
+                <a href="{% url 'accounts:signup' %}" class="mobile-drawer-link">নিবন্ধন করুন</a>
+                <a href="{% url 'privacy' %}" class="mobile-drawer-link">গোপনীয়তা নীতি</a>
+                <a href="{% url 'terms' %}" class="mobile-drawer-link">শর্তাবলী</a>
+                {% if user.is_authenticated %}
+                <div style="border-top:1px solid var(--border-light);margin:8px 0"></div>
+                <a href="{% url 'accounts:dashboard' %}" class="mobile-drawer-link">ড্যাশবোর্ড</a>
+                <a href="{% url 'accounts:edit_profile' %}" class="mobile-drawer-link">প্রোফাইল সম্পাদনা</a>
+                {% if user.profile.account_type == 'helper' %}
+                <a href="{% url 'accounts:edit_helper_profile' %}" class="mobile-drawer-link">হেল্পার প্রোফাইল</a>
                 {% endif %}
-                <button class="theme-toggle" id="themeToggle" aria-label="থিম">🌙</button>
+                <form method="post" action="{% url 'accounts:logout' %}" class="mobile-drawer-form">
+                    {% csrf_token %}
+                    <button type="submit" class="mobile-drawer-link" style="color:var(--error);border:none;background:none;cursor:pointer;font-family:var(--font-bangla);font-size:.95rem;font-weight:500;text-align:left;width:100%">লগআউট</button>
+                </form>
+                {% else %}
+                <div style="border-top:1px solid var(--border-light);margin:8px 0"></div>
+                <a href="{% url 'accounts:login' %}" class="mobile-drawer-link">লগইন</a>
+                {% endif %}
             </div>
         </div>
-    </nav>
 
-    {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-        <div class="message message-{{ message.tags }}">
-            <span>{{ message }}</span>
-            <button class="message-close" onclick="this.parentElement.remove()">&times;</button>
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="message message-{{ message.tags }}">
+                <span>{{ message }}</span>
+                <button class="message-close" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        {% endif %}
+
+        {% block sos_banner %}{% endblock %}
+
+        <main class="app-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <nav class="bottom-tabs" id="bottomTabs">
+            <a href="{% url 'helpers:home' %}" class="tab-item" data-tab="home">
+                <svg class="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="tab-label">হোম</span>
+            </a>
+            <a href="{% url 'helpers:helper_list' %}" class="tab-item" data-tab="search">
+                <svg class="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <span class="tab-label">খুঁজুন</span>
+            </a>
+            <a href="{% url 'helpers:helper_list' %}" class="tab-item" data-tab="favs">
+                <svg class="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                <span class="tab-label">পছন্দ</span>
+            </a>
+            <a href="{% if user.is_authenticated %}{% url 'accounts:dashboard' %}{% else %}{% url 'accounts:login' %}{% endif %}" class="tab-item" data-tab="profile">
+                <svg class="tab-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="tab-label">প্রোফাইল</span>
+            </a>
+        </nav>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3 class="footer-title">Khujo</h3>
+                        <p class="footer-text">বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। আমরা দেশের মানুষের জন্য তৈরি করেছি একটি নির্ভরযোগ্য সেবা।</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">দ্রুত লিংক</h4>
+                        <ul class="footer-links">
+                            <li><a href="{% url 'helpers:helper_list' %}">হেল্পার খুঁজুন</a></li>
+                            <li><a href="{% url 'about' %}">আমাদের সম্পর্কে</a></li>
+                            <li><a href="{% url 'accounts:signup' %}">নিবন্ধন করুন</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">আইনি</h4>
+                        <ul class="footer-links">
+                            <li><a href="{% url 'terms' %}">শর্তাবলী</a></li>
+                            <li><a href="{% url 'privacy' %}">গোপনীয়তা নীতি</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4 class="footer-subtitle">যোগাযোগ</h4>
+                        <ul class="footer-links">
+                            <li>ইমেইল: {{ contact_email|default:'info@khujo.pro.bd' }}</li>
+                            <li>ফোন: {{ contact_phone|default:'+৮৮০ ১XXX-XXXXXX' }}</li>
+                            <li>ঢাকা, বাংলাদেশ</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; ২০২৬ Khujo। সর্বস্বত্ব সংরক্ষিত। দেশের জন্য আমাদের এই ছোট প্রয়াস।</p>
+                </div>
+            </div>
+        </footer>
+
+        <a href="#" class="back-to-top" id="backToTop" aria-label="উপরে যান">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </a>
+
     </div>
-    {% endif %}
-
-    {% block sos_banner %}{% endblock %}
-
-    <main class="main-content">
-        {% block content %}{% endblock %}
-    </main>
-
-    <a href="#" class="back-to-top" id="backToTop" aria-label="উপরে যান">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-    </a>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3 class="footer-title">হেল্পহ্যান্ডস</h3>
-                    <p class="footer-text">বাংলাদেশের সবচেয়ে বিশ্বস্ত হেল্পার প্ল্যাটফর্ম। আমরা দেশের মানুষের জন্য তৈরি করেছি একটি নির্ভরযোগ্য সেবা।</p>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">দ্রুত লিংক</h4>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'helpers:helper_list' %}">হেল্পার খুঁজুন</a></li>
-                        <li><a href="{% url 'about' %}">আমাদের সম্পর্কে</a></li>
-                        <li><a href="{% url 'accounts:signup' %}">নিবন্ধন করুন</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">আইনি</h4>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'terms' %}">শর্তাবলী</a></li>
-                        <li><a href="{% url 'privacy' %}">গোপনীয়তা নীতি</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-subtitle">যোগাযোগ</h4>
-                    <ul class="footer-links">
-                        <li>ইমেইল: {{ contact_email|default:'info@helphands.com' }}</li>
-                        <li>ফোন: {{ contact_phone|default:'+৮৮০ ১XXX-XXXXXX' }}</li>
-                        <li>ঢাকা, বাংলাদেশ</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; ২০২৬ হেল্পহ্যান্ডস। সর্বস্বত্ব সংরক্ষিত। দেশের জন্য আমাদের এই ছোট প্রয়াস।</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="{% static 'js/main.js' %}"></script>
-
-    <style>
-    .ad-popup{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:none;align-items:center;justify-content:center}
-    .ad-popup-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
-    .ad-popup-content{position:relative;max-width:90%;max-height:90vh;background:white;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-    @keyframes adFadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-    .ad-popup-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:white;border:none;width:36px;height:36px;border-radius:50%;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:all .2s}
-    .ad-popup-close:hover{background:rgba(0,0,0,.8);transform:rotate(90deg)}
-    .ad-popup-content img,.ad-popup-content video{display:block;max-width:100%;max-height:60vh;width:auto;height:auto;margin:0 auto}
-    .ad-title{padding:16px 20px 0;margin:0;font-size:1.2rem;text-align:center;color:#2c2416}
-    .ad-description{padding:8px 20px 20px;text-align:center;color:#7a6f5d}
-    .back-to-top{position:fixed;bottom:24px;left:24px;z-index:5000;width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;border:none;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);cursor:pointer;opacity:0;visibility:hidden;transform:scale(.8);transition:all .3s ease}
-    .back-to-top.visible{opacity:1;visibility:visible;transform:scale(1)}
-    .back-to-top:hover{transform:scale(1.1) translateY(-3px);background:var(--primary-dark)}
-    @keyframes adFadeOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.9)}}
-    </style>
 
     <script>
     function closeAd(id){var p=document.getElementById('adPopup'+id);if(p){p.style.animation='adFadeOut 0.3s ease forwards';p.addEventListener('animationend',function(){p.style.display='none'},{once:true})}}
@@ -237,6 +261,24 @@
         if (stored === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
+
+        var toggleBtn = document.getElementById('navbarToggle');
+        var drawer = document.getElementById('mobileDrawer');
+        var overlay = document.getElementById('mobileDrawerOverlay');
+        var closeBtn = document.getElementById('mobileDrawerClose');
+        function openDrawer(){drawer.classList.add('active');overlay.classList.add('active');document.body.style.overflow='hidden';toggleBtn.classList.add('active')}
+        function closeDrawer(){drawer.classList.remove('active');overlay.classList.remove('active');document.body.style.overflow='';toggleBtn.classList.remove('active')}
+        if(toggleBtn){toggleBtn.addEventListener('click',function(){if(drawer.classList.contains('active')){closeDrawer()}else{openDrawer()}})}
+        if(closeBtn){closeBtn.addEventListener('click',closeDrawer)}
+        if(overlay){overlay.addEventListener('click',closeDrawer)}
+
+        var tabs = document.querySelectorAll('.tab-item');
+        var path = window.location.pathname;
+        tabs.forEach(function(tab){
+            var href = tab.getAttribute('href');
+            if(href && path.indexOf(href) === 0 && href !== '/'){tab.classList.add('active')}
+            else if(href === '/' && path === '/'){tab.classList.add('active')}
+        });
     });
     </script>
 
